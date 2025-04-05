@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Career Prediction System</h1>
+        <form method="POST">
+            <!-- Dropdown Fields -->
+            {% for field, options in dropdown_mappings.items() %}
+                <div class="form-group">
+                    <label for="{{ field }}">{{ field }}:</label>
+                    <select name="{{ field }}" id="{{ field }}" required>
+                        <option value="" disabled selected>Select {{ field }}</option>
+                        {% for option in options.keys() %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endfor %}
+
+            <!-- Number Input Fields -->
+            {% for field in number_inputs %}
+                <div class="form-group">
+                    <label for="{{ field }}">{{ field }}:</label>
+                    <input type="number" name="{{ field }}" id="{{ field }}" step="any" required>
+                </div>
+            {% endfor %}
+
+            <button type="submit">Predict Career</button>
+        </form>
+
+        {% if result %}
+            <div class="result">
+                <h2>Prediction Result:</h2>
+                <p>Based on your inputs, you're most suited for: <strong>{{ result.text }}</strong></p>
+                <p>Confidence: {{ result.percentage }}%</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
